@@ -22,10 +22,17 @@
 	<% if @list %>
 			<% @list.errors.full_messages.each do |message|%>
 	    		<div class="alert alert-danger">
-	    			<p><%=message%></p>
+	    			<p>List: <%=message%></p>
 	    	    </div>
 			<% end %>
+	<% end %>
+	<% if @task %>
+		<% @task.errors.full_messages.each do |message|%>
+	    	<div class="alert alert-danger">
+	    		<p>Task: <%=message%></p>
+	    	</div>
 		<% end %>
+	<% end %>
 	<% if flash[:warning] %>
 		<div class="alert alert-danger"><%= flash[:warning] %></div>
 	<% end %>
