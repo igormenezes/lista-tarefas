@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 20180206173457) do
 
   create_table "lists", force: :cascade do |t|
     t.string "name"
-    t.integer "public"
+    t.string "available"
     t.integer "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
