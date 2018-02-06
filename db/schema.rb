@@ -16,9 +16,11 @@ ActiveRecord::Schema.define(version: 20180206173457) do
     t.string "name"
     t.integer "available", limit: 1, default: 1
     t.integer "active"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_lists_on_name", unique: true
+    t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
