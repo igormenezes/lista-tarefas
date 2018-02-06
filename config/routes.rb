@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   get '/list/show' => 'list#show'
   post 'list/add' => 'list#add'
 
-  get '/users', to: redirect(path: 'users/sign_up')
+  match '*path' => redirect('/'), via: :get
+
+  #get '/users', to: redirect(path: 'users/sign_up')
 end
