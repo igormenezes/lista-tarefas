@@ -5,6 +5,15 @@
 			<ul class='nav navbar-nav navbar-right'>
 				<% if user_signed_in? %>
 				<li>
+					<%= link_to "Favoritos", '/favoritos', method: :get %>
+				</li>
+				<li>
+					<%= link_to "Ver listas", '/listas/all', method: :get %>
+				</li>
+				<li>
+					<%= link_to "Suas listas", '/listas/show', method: :get %>
+				</li>
+				<li>
 					<%= link_to "Sair", destroy_user_session_path, method: :delete %>
 				</li>
 				<% end %>
