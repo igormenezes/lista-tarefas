@@ -1,7 +1,13 @@
 <%= render 'layouts/menu'%>
 <div class="container">
+  <% if @user %>
+    <% @user.errors.full_messages.each do |message|%>
+        <div class="alert alert-danger">
+          <p><%=message%></p>
+        </div>
+    <% end %>
+  <% end %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
   <div class="form-group">
     <label for="email" class="col-sm-2 control-label">E-mail</label>
       <div class="col-sm-10">
