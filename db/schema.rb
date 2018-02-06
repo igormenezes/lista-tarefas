@@ -14,10 +14,11 @@ ActiveRecord::Schema.define(version: 20180206173457) do
 
   create_table "lists", force: :cascade do |t|
     t.string "name"
-    t.string "available"
+    t.integer "available", limit: 1, default: 1
     t.integer "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_lists_on_name", unique: true
   end
 
   create_table "tasks", force: :cascade do |t|
