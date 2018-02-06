@@ -25,6 +25,8 @@ gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 # Devise
 gem 'devise'
+# Messages
+gem 'rails-i18n', '~> 4.0.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
