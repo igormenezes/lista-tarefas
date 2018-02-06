@@ -2,7 +2,7 @@ class CreateLists < ActiveRecord::Migration[5.1]
   def change
     create_table :lists do |t|
       t.string :name
-      t.integer :public
+      t.string :available
       t.integer :active
 
       t.timestamps
