@@ -15,7 +15,7 @@ class ListController < ApplicationController
 				params[:task].each do | value|
 					@task = Task.new
 					@task.name = value
-					@task.list_id = List.last.id + 1
+					@task.list_id = List.maximum('id').nil? ? 1 : List.maximum('id') + 1
 					@arrayTasks << @task
 
 					if !@task.valid?
@@ -34,7 +34,7 @@ class ListController < ApplicationController
 				@arrayTasks.each do | task |
 					task.save
 				end
-				
+
 				redirect_to root_url
 			end
 		rescue => e
