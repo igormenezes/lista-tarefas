@@ -1,40 +1,24 @@
 <div class="container">
-	<%= form_for List.new, html: {id: 'form-list', class: 'form-horizontal'}, url: {action: 'add'}, method: 'POST' do |f| %>
-		<div class="form-group">
-			<label for="name" class="col-sm-2 control-label">Name</label>
-			<div class="col-sm-10">
-				<%= f.text_field :name, class: 'form-control', required: true%><br/> 
-			</div> 
-		</div>
-		<div class="form-group">
-			<label for="password" class="col-sm-2 control-label">Available</label>
-			<div class="col-sm-10">
-				<%= f.select(:available, [['Public', 1], ['Private', 0] ], {}, { :class => 'form-control', required: true }) %>
-			</div>
-		</div>
-		<div class="form-group last-input">
-			<div class="col-sm-offset-2 col-sm-10">
-				<input type="button" class='add-task btn btn-default' value='Add Task' >
-				<input type='button' class='remove-task btn btn-default' style="display: none;" value='Remove Task'>
-				<%= f.submit "Register", class: 'button-submit btn btn-default', disabled: true %>
-			</div> 
-		</div>
-	<% end %>
-	<% if @list %>
-			<% @list.errors.full_messages.each do |message|%>
-	    		<div class="alert alert-danger">
-	    			<p>List: <%=message%></p>
-	    	    </div>
+	<% if @lists && @lists.size >= 1 %>
+	<table class="table table-bordered">
+		<thead id='title-favorites'>
+			<tr>
+				<th>Name</th>
+				<th>Available</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody id='favorites-musics'>
+			<% if !@lists.empty? %>
+			<% @lists.each do |values| %>
+			<tr>
+				<td><%= values.name %></td>
+				<td><%= values.available %></td>
+				<td><a href='/list/edit/<%= values.id %>'>Editar</a></td>
+			</tr>  
+			<% end %>  
 			<% end %>
-	<% end %>
-	<% if @task %>
-		<% @task.errors.full_messages.each do |message|%>
-	    	<div class="alert alert-danger">
-	    		<p>Task: <%=message%></p>
-	    	</div>
-		<% end %>
-	<% end %>
-	<% if flash[:warning] %>
-		<div class="alert alert-danger"><%= flash[:warning] %></div>
-	<% end %>
+		</tbody>
+	</table>
+	<%end%>
 </div>

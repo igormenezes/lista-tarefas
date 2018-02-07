@@ -1,5 +1,10 @@
 class ListController < ApplicationController
 	def show
+		@lists = List.select(:id, :name, :available)
+		.where('lists.user_id = ? AND active = ?', current_user.id, 1)
+	end
+
+	def create
 	end
 
 	def add
@@ -27,7 +32,7 @@ class ListController < ApplicationController
 			end
 
 			if !@error.nil?
-				return render :show
+				return render :create
 			else
 				@list.save
 
@@ -39,7 +44,7 @@ class ListController < ApplicationController
 			end
 		rescue => e
 			flash[:warning] = "Ocorreu um erro, ao tentar adicionar a lista! Erro: #{e}"
-	    	return render :show
+	    	return render :create
 		end
 	end
 end
