@@ -2,8 +2,8 @@ class CreateLists < ActiveRecord::Migration[5.1]
   def change
     create_table :lists do |t|
       t.string :name
-      t.integer :available, default: 1, limit: 1
-      t.integer :active
+      t.integer :available, limit: 1
+      t.integer :active, default: 1
 
       t.references :user, foreign_key: true
 

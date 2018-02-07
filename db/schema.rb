@@ -14,8 +14,8 @@ ActiveRecord::Schema.define(version: 20180206173457) do
 
   create_table "lists", force: :cascade do |t|
     t.string "name"
-    t.integer "available", limit: 1, default: 1
-    t.integer "active"
+    t.integer "available", limit: 1
+    t.integer "active", default: 1
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20180206173457) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
-    t.integer "active"
+    t.integer "active", default: 1
     t.integer "list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
