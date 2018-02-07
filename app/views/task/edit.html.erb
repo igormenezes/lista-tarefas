@@ -6,7 +6,7 @@
 	<table class="table table-bordered">
 		<thead id='title-favorites'>
 			<tr>
-				<th>Name</th>
+				<th>Description</th>
 				<th>Active</th>
 				<th>Action</th>
 			</tr>
@@ -15,7 +15,7 @@
 			<% if !@tasks.empty? %>
 			<% @tasks.each do |values| %>
 			<tr id='task-<%=values.id%>'>
-				<td><%= values.name %></td>
+				<td><%= values.description %></td>
 				<td><%= values.active %></td>
 				<% if values.active == 1 %>
 				<td>

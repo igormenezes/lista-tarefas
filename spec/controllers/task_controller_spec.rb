@@ -6,11 +6,16 @@ RSpec.describe TaskController, type: :controller do
 	before(:all) do
 	end
 
-	it "update status task" do
+	it "edit" do
+		get 'edit', params: {id: 1}
+		expect(response).to have_http_status(200)
+	end
+
+	it "update" do
 		list = List.new(name: 'teste', available: 1, user_id: @user.id)
 		list.save
 
-		task = Task.new(name: 'teste', active: 1, list_id: list.id)
+		task = Task.new(description: 'teste', active: 1, list_id: list.id)
 		task.save
 
 		post 'update', params: {id: task.id,user: @user.id}

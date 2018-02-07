@@ -6,7 +6,7 @@ RSpec.describe ListController, type: :controller do
 	before(:all) do
 	end
 
-	it "save new list and task" do
+	it "add" do
 		post 'add', params: {
 			list: {
 				name: 'teste',
@@ -18,9 +18,19 @@ RSpec.describe ListController, type: :controller do
 		expect(response).to redirect_to('/')
   	end
 
-  	it "show list" do
+  	it "show" do
   		get 'show'
 		expect(response).to have_http_status(200)
+  	end
+
+  	it "new" do
+  		get 'new'
+		expect(response).to have_http_status(200)
+  	end
+
+  	it "all" do
+  		get 'all'
+  		expect(response).to have_http_status(200)
   	end
 
   	after(:all) do

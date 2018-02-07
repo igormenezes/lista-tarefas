@@ -1,7 +1,7 @@
 class TaskController < ApplicationController
 	def edit
 		begin
-			@tasks = Task.select(:id, :name, :active)
+			@tasks = Task.select(:id, :description, :active)
 			.joins('LEFT JOIN lists ON lists.id = tasks.list_id')
 			.where('lists.id = ? AND lists.user_id = ?', params[:id], current_user.id)
 		rescue => e

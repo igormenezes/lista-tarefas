@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20180206173457) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "name"
+    t.string "description"
     t.integer "active", default: 1
     t.integer "list_id"
     t.datetime "created_at", null: false

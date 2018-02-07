@@ -1,0 +1,23 @@
+<div class="container">
+	<% if @lists %>
+	<% @lists.each do |list| %>
+	<table class="table table-bordered">
+		<h2><center>Name List: <%= list.name %></center></h2>
+		<% @tasks.each do |task| %>
+		<% if task.list_id == list.id %> 
+		<tbody>
+			<tr>
+				<td><center>Task Description: <%= task.description %></center></td>	
+			</tr>
+		</tbody>
+		<% end %>
+		<% end %>
+	</table>
+	<div class="form-group">
+		<center>
+			<button type="button" class='add-task btn btn-default'>Add Favorite</button> 
+		</center>
+	</div>
+	<% end %>
+	<% end %> 
+</div>

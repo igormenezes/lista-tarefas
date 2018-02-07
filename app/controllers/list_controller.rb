@@ -21,7 +21,7 @@ class ListController < ApplicationController
 			if @list.valid?
 				params[:task].each do | value|
 					@task = Task.new
-					@task.name = value
+					@task.description = value
 					@task.list_id = List.maximum('id').nil? ? 1 : List.maximum('id') + 1
 					@arrayTasks << @task
 
@@ -44,6 +44,22 @@ class ListController < ApplicationController
 
 				redirect_to root_url
 			end
+		rescue => e
+			flash[:warning] = "Ocorreu um erro, ao tentar adicionar a lista! Erro: #{e}"
+			return render :new
+		end
+	end
+
+	def all
+		begin
+			@lists = List.select(:id, :name)
+			.joins('LEFT JOIN tasks ON tasks.list_id = lists.id')
+			.where('available = ? AND user_id <> ?', 1, current_user.id)
+			.group(:id)
+
+			@tasks = Task.select(:id, :description, :list_id)
+			.joins('LEFT JOIN lists ON lists.id = tasks.list_id')
+			.where('available = ? AND user_id <> ?', 1, current_user.id)
 		rescue => e
 			flash[:warning] = "Ocorreu um erro, ao tentar adicionar a lista! Erro: #{e}"
 			return render :new
