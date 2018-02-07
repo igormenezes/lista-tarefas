@@ -5,16 +5,16 @@
 			<ul class='nav navbar-nav navbar-right'>
 				<% if user_signed_in? %>
 				<li>
-					<%= link_to "Favorites", '/favorites', method: :get %>
+					<%= link_to "My Lists", '/', method: :get %>
+				</li>
+				<li>
+					<%= link_to "Create List", '/list/new', method: :get %>
 				</li>
 				<li>
 					<%= link_to "Show Lists", '/list/all', method: :get %>
 				</li>
 				<li>
-					<%= link_to "My Lists", '/', method: :get %>
-				</li>
-				<li>
-					<%= link_to "Create List", '/list/create', method: :get %>
+					<%= link_to "Favorites", '/favorites', method: :get %>
 				</li>
 				<li>
 					<%= link_to "Logout", destroy_user_session_path, method: :delete %>

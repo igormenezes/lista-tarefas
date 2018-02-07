@@ -1,10 +1,12 @@
 class ListController < ApplicationController
 	def show
+		flash.delete(:warning)
 		@lists = List.select(:id, :name, :available)
 		.where('lists.user_id = ? AND active = ?', current_user.id, 1)
 	end
 
 	def new
+		flash.delete(:warning)
 	end
 
 	def add
@@ -44,7 +46,7 @@ class ListController < ApplicationController
 			end
 		rescue => e
 			flash[:warning] = "Ocorreu um erro, ao tentar adicionar a lista! Erro: #{e}"
-	    	return render :new
+			return render :new
 		end
 	end
 end

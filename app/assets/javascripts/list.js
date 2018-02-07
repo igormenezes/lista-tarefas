@@ -9,7 +9,7 @@ $(document).ready(function(){
 			+	"<input type='text' class='form-control' name='task[]' required='true'>"
 			+ "</div>" 
 			+ "</div>"
-		);
+			);
 
 		if ($('.group-task').length) {
 			$('.remove-task').show();

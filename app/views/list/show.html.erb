@@ -1,4 +1,7 @@
 <div class="container">
+	<% if flash[:warning] %>
+	<div class="alert alert-danger"><%= flash[:warning] %></div>
+	<% end %>
 	<% if @lists && @lists.size >= 1 %>
 	<table class="table table-bordered">
 		<thead id='title-favorites'>
@@ -14,7 +17,11 @@
 			<tr>
 				<td><%= values.name %></td>
 				<td><%= values.available %></td>
-				<td><a href='/list/edit/<%= values.id %>'>Editar</a></td>
+				<td>
+					<a href='/task/edit/<%= values.id %>'>
+						Show Tasks &nbsp&nbsp
+					</a>
+				</td>
 			</tr>  
 			<% end %>  
 			<% end %>
