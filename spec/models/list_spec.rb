@@ -23,8 +23,8 @@ RSpec.describe List, type: :model do
 	end
 
 	it "show lists by user" do
-		user = User.new(email: 'teste2@yahoo.com.br', password: '123456')
-		user.save
+		current_user = User.new(email: 'teste2@yahoo.com.br', password: '123456')
+		current_user.save
 
 		list = List.new(name: 'teste1', available: 1, active: 1, user_id: @user.id)
 		list.save
@@ -32,7 +32,7 @@ RSpec.describe List, type: :model do
 		list = List.new(name: 'teste2', available: 1, active: 0, user_id: @user.id)
 		list.save
 
-		list = List.new(name: 'teste3', available: 1, active: 1, user_id: user.id)
+		list = List.new(name: 'teste3', available: 1, active: 1, user_id: current_user.id)
 		list.save
 
 		lists = List.select(:all)
@@ -42,47 +42,69 @@ RSpec.describe List, type: :model do
 	end
 
 	it "show all lists and tasks other users" do
-		user = User.new(email: 'teste2@yahoo.com.br', password: '123456')
-		user.save
+		current_user = User.new(email: 'teste2@yahoo.com.br', password: '123456')
+		current_user.save
 
-		list = List.new(name: 'teste1', available: 1, active: 1, user_id: @user.id)
-		list.save
+		#CONDITIONS ACCEPT
+		#
+		#PUBLIC
+		#OTHER USER
+		#NOT ADD FAVORITES 
 
-		task = Task.new(description: 'teste1', list_id: list.id)
-		task.save
-		task = Task.new(description: 'teste2', list_id: list.id)
-		task.save
-		task = Task.new(description: 'teste3', list_id: list.id)
-		task.save
+		#List1 - PUBLIC | OTHER USER | ADD FAVORITES = NOT
+		list1 = List.new(name: 'teste1', available: 1, active: 1, user_id: @user.id)
+		list1.save
 
-		list = List.new(name: 'teste2', available: 0, active: 1, user_id: @user.id)
-		list.save
-
-		task = Task.new(description: 'teste1', list_id: list.id)
+		task = Task.new(description: 'teste1', list_id: list1.id)
 		task.save
-		task = Task.new(description: 'teste2', list_id: list.id)
+		task = Task.new(description: 'teste2', list_id: list1.id)
 		task.save
-		task = Task.new(description: 'teste3', list_id: list.id)
+		task = Task.new(description: 'teste3', list_id: list1.id)
 		task.save
 
-		list = List.new(name: 'teste3', available: 1, active: 1, user_id: user.id)
-		list.save
+		#List2 - PRIVATE | OTHER USER | NOT ADD FAVORITES = NOT
+		list2 = List.new(name: 'teste2', available: 0, active: 1, user_id: @user.id)
+		list2.save
 
-		task = Task.new(description: 'teste1', list_id: list.id)
+		task = Task.new(description: 'teste1', list_id: list2.id)
 		task.save
-		task = Task.new(description: 'teste2', list_id: list.id)
+
+		#List3 - PUBLIC | CURRENT USER | NOT ADD FAVORITES = NOT
+		list3 = List.new(name: 'teste3', available: 1, active: 1, user_id: current_user.id)
+		list3.save
+
+		task = Task.new(description: 'teste1', list_id: list3.id)
 		task.save
-		task = Task.new(description: 'teste3', list_id: list.id)
+
+		#List4 PUBLIC | OTHER USER | NOT ADD FAVORITES = YES
+		list4 = List.new(name: 'teste1', available: 1, active: 1, user_id: @user.id)
+		list4.save
+
+		task = Task.new(description: 'teste1', list_id: list4.id)
 		task.save
+		task = Task.new(description: 'teste2', list_id: list4.id)
+		task.save
+		task = Task.new(description: 'teste3', list_id: list4.id)
+		task.save
+
+		#ADD FAVORITES BY CURRENT USER
+		favorites = Favorite.new(user_id: current_user.id, list_id: list1.id)
+		favorites.save
+
+		#ADD FAVORITES BY OTHER USER
+		favorites = Favorite.new(user_id: @user.id, list_id: list4.id)
+		favorites.save
 
 		lists = List.select(:id, :name)
 		.joins('LEFT JOIN tasks ON tasks.list_id = lists.id')
-		.where('available = ? AND user_id <> ?', 1, user.id)
+		.joins('LEFT JOIN favorites ON favorites.user_id = lists.user_id')
+		.where('lists.available = ? AND lists.user_id <> ? AND favorites.user_id <> ?', 1, current_user.id, current_user.id)
 		.group(:id)
 
 		tasks = Task.select(:id, :description)
 		.joins('LEFT JOIN lists ON lists.id = tasks.list_id')
-		.where('available = ? AND user_id <> ?', 1, user.id)
+		.joins('LEFT JOIN favorites ON favorites.user_id = lists.user_id')
+		.where('lists.available = ? AND lists.user_id <> ? AND favorites.user_id <> ?', 1, current_user.id, current_user.id)
 		
 		expect(lists.length).to eq 1 #quantity lists
 
