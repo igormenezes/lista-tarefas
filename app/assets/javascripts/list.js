@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$('.add-task').click(function(){
 		$('#form-list .last-input').before(
 			"<div class='form-group group-task'>"
-			+ "<label for='task' class='col-sm-2 control-label'>Task</label>"
+			+ "<label for='task' class='col-sm-2 control-label'>Name Task</label>"
 			+ "<div class='col-sm-10'>"
 			+	"<input type='text' class='form-control' name='task[]' required='true'>"
 			+ "</div>" 
@@ -22,6 +22,7 @@ $(document).ready(function(){
 
 		if($('.group-task').length == 0){
 			$('.remove-task').hide();
+			$('.button-submit').attr('disabled', true);
 		}
 	});
 
