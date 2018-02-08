@@ -49,7 +49,7 @@ RSpec.describe List, type: :model do
 		#
 		#PUBLIC
 		#OTHER USER
-		#NOT ADD FAVORITES 
+		#NOT ADD FAVORITES
 
 		#List1 - PUBLIC | OTHER USER | ADD FAVORITES = NOT
 		list1 = List.new(name: 'teste1', available: 1, active: 1, user_id: @user.id)
@@ -76,15 +76,22 @@ RSpec.describe List, type: :model do
 		task = Task.new(description: 'teste1', list_id: list3.id)
 		task.save
 
-		#List4 PUBLIC | OTHER USER | NOT ADD FAVORITES = YES
-		list4 = List.new(name: 'teste1', available: 1, active: 1, user_id: @user.id)
+		#List4 PUBLIC | OTHER USER | ADD FAVORITES = NOT
+		list4 = List.new(name: 'teste4', available: 1, active: 1, user_id: @user.id)
 		list4.save
 
 		task = Task.new(description: 'teste1', list_id: list4.id)
 		task.save
-		task = Task.new(description: 'teste2', list_id: list4.id)
+
+		#List5 PUBLIC | OTHER USER | NOT ADD FAVORITES = YES
+		list5 = List.new(name: 'teste5', available: 1, active: 1, user_id: @user.id)
+		list5.save
+
+		task = Task.new(description: 'teste1', list_id: list5.id)
 		task.save
-		task = Task.new(description: 'teste3', list_id: list4.id)
+		task = Task.new(description: 'teste2', list_id: list5.id)
+		task.save
+		task = Task.new(description: 'teste3', list_id: list5.id)
 		task.save
 
 		#ADD FAVORITES BY CURRENT USER
@@ -95,17 +102,29 @@ RSpec.describe List, type: :model do
 		favorites = Favorite.new(user_id: @user.id, list_id: list4.id)
 		favorites.save
 
+		#ADD FAVORITES BY CURRENT_USER
+		favorites = Favorite.new(user_id: current_user.id, list_id: list4.id)
+		favorites.save
+
+		#ADD FAVORITES BY OTHER USER
+		favorites = Favorite.new(user_id: @user.id, list_id: list5.id)
+		favorites.save
+
 		lists = List.select(:id, :name)
 		.joins('LEFT JOIN tasks ON tasks.list_id = lists.id')
 		.joins('LEFT JOIN favorites ON favorites.list_id = lists.id')
-		.where('lists.available = ? AND lists.user_id <> ? AND (favorites.user_id <> ? OR favorites.user_id IS NULL)', 1, current_user.id, current_user.id)
+		.where('lists.available = ? 
+			AND lists.user_id <> ? 
+			AND (favorites.list_id NOT IN(SELECT list_id FROM favorites WHERE favorites.user_id = ?) OR favorites.user_id IS NULL)', 1, current_user.id, current_user.id)
 		.group(:id)
 
 		tasks = Task.select(:id, :description, :list_id)
 		.joins('LEFT JOIN lists ON lists.id = tasks.list_id')
 		.joins('LEFT JOIN favorites ON favorites.list_id = lists.id')
-		.where('lists.available = ? AND lists.user_id <> ? AND (favorites.user_id <> ? OR favorites.user_id IS NULL)', 1, current_user.id, current_user.id)
-		
+		.where('lists.available = ? 
+			AND lists.user_id <> ? 
+			AND (favorites.list_id NOT IN(SELECT list_id FROM favorites WHERE favorites.user_id = ?) OR favorites.user_id IS NULL)', 1, current_user.id, current_user.id)
+
 		expect(lists.length).to eq 1 #quantity lists
 
 		expect(tasks.length).to eq 3 #quantity tasks

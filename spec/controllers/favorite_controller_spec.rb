@@ -7,6 +7,9 @@ RSpec.describe FavoriteController, type: :controller do
 	end
 
 	it "add favorite" do
+		list = List.new(name: 'teste', available: 1)
+		list.save
+		
 		post 'add', params: {id: 1}
 		expect(JSON.parse(response.body)['success']).to eq true
 	end
