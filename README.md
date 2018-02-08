@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+---Mini App Lista de Tarefas--- 
 
-Things you may want to cover:
+Ruby on Rails (Devise, RSpec, Database Cleaner), Javascript/jQuery, Bootstrap, SQLite3
 
-* Ruby version
+Usuário pode fazer Sign-up e Sign-in
 
-* System dependencies
+Após logado, o usuário pode criar uma Lista de Tarefas
 
-* Configuration
+No momento da criação de uma Lista já podemos criar várias Tarefas
 
-* Database creation
+Cada lista pode ser "Pública" ou "Privada"
 
-* Database initialization
+O usuário criador da lista pode fechar uma tarefa
 
-* How to run the test suite
+O usuário logado pode ver listas públicas de outros usuários
 
-* Services (job queues, cache servers, search engines, etc.)
+O usuário logado pode marcar uma lista pública de outro usuário como favorita
 
-* Deployment instructions
-
-* ...
+O usuário logado pode ver todas as listas que ele marcou como favoritas
