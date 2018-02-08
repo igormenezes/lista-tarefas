@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'task/update' => 'task#update'
 
   post 'favorite/add' => 'favorite#add'
+  get 'favorite/show' => 'favorite#show'
+  post 'favorite/remove' => 'favorite#remove'
 
   match '*path' => redirect('/'), via: :get
 end
