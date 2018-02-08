@@ -54,12 +54,14 @@ class ListController < ApplicationController
 		begin
 			@lists = List.select(:id, :name)
 			.joins('LEFT JOIN tasks ON tasks.list_id = lists.id')
-			.where('available = ? AND user_id <> ?', 1, current_user.id)
+			.joins('LEFT JOIN favorites ON favorites.list_id = lists.id')
+			.where('lists.available = ? AND lists.user_id <> ? AND (favorites.user_id <> ? OR favorites.user_id IS NULL)', 1, current_user.id, current_user.id)
 			.group(:id)
 
 			@tasks = Task.select(:id, :description, :list_id)
 			.joins('LEFT JOIN lists ON lists.id = tasks.list_id')
-			.where('available = ? AND user_id <> ?', 1, current_user.id)
+			.joins('LEFT JOIN favorites ON favorites.list_id = lists.id')
+			.where('lists.available = ? AND lists.user_id <> ? AND (favorites.user_id <> ? OR favorites.user_id IS NULL)', 1, current_user.id, current_user.id)
 		rescue => e
 			flash[:warning] = "Ocorreu um erro, ao tentar adicionar a lista! Erro: #{e}"
 			return render :new

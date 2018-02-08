@@ -24,5 +24,26 @@ $(document).ready(function(){
 			$('.remove-task').hide();
 		}
 	});
+
+	$('.add-favorite').click(function(e){
+		e.preventDefault();
+		$.ajax({
+			url: '/favorite/add',
+			type: 'POST',
+			dataType: 'json',
+			data: {id: $(this).attr('id')},
+			success: function(data){
+				console.log(data);
+				if(data.success == true){
+					$('#block-list-' + data.id).remove();
+				}else{
+					console.log(data.message);
+				}
+			},
+			error: function() {
+				console.log("error");
+			}
+		})
+	})
 });
 

@@ -6,7 +6,7 @@ RSpec.describe ListController, type: :controller do
 	before(:all) do
 	end
 
-	it "add" do
+	it "add list" do
 		post 'add', params: {
 			list: {
 				name: 'teste',
@@ -18,17 +18,17 @@ RSpec.describe ListController, type: :controller do
 		expect(response).to redirect_to('/')
   	end
 
-  	it "show" do
+  	it "show list" do
   		get 'show'
 		expect(response).to have_http_status(200)
   	end
 
-  	it "new" do
+  	it "form to add list" do
   		get 'new'
 		expect(response).to have_http_status(200)
   	end
 
-  	it "all" do
+  	it "all list" do
   		get 'all'
   		expect(response).to have_http_status(200)
   	end

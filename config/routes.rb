@@ -10,5 +10,7 @@ Rails.application.routes.draw do
   get 'task/edit/:id' => 'task#edit'
   post 'task/update' => 'task#update'
 
+  post 'favorite/add' => 'favorite#add'
+
   match '*path' => redirect('/'), via: :get
 end
